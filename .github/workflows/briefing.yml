@@ -1,10 +1,10 @@
 name: Generate Briefing
 
 on:
-  # Run Mon & Thu at 08:30 CET (07:30 UTC in winter, 06:30 UTC in summer)
-  # Using 07:30 UTC — covers CET (UTC+1) winter time; swap to 06:30 in summer
+  # Run Mon & Thu at 08:30 CEST (06:30 UTC in summer, UTC+2)
+  # Europe clocks move to CEST (UTC+2) late March — 06:30 UTC = 08:30 CEST
   schedule:
-    - cron: '30 7 * * 1,4'   # Monday and Thursday 07:30 UTC
+    - cron: '30 6 * * 1,4'   # Monday and Thursday 06:30 UTC (= 08:30 CEST)
 
   # Allow manual trigger from GitHub UI
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: Generate briefing
         env:
