@@ -1,0 +1,79 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "A grounded, twice-weekly briefing on global markets and what they mean for life in Zurich.",
+  ogImage,
+} = Astro.props;
+
+const siteTitle = "Craig's Newsroom";
+const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- OG / Twitter -->
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content="website" />
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <title>{fullTitle}</title>
+  </head>
+
+  <body class="min-h-screen flex flex-col">
+    <!-- Nav -->
+    <header class="border-b border-ink-100 bg-white sticky top-0 z-10">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
+        <a href="/personal-newsroom/" class="flex items-center gap-2 group">
+          <span class="text-2xl">📰</span>
+          <span class="font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
+            Craig's Newsroom
+          </span>
+        </a>
+        <nav class="flex items-center gap-5 text-sm text-ink-700">
+          <a href="/personal-newsroom/" class="hover:text-brand-600 transition-colors">Home</a>
+          <a href="/personal-newsroom/archive" class="hover:text-brand-600 transition-colors">Archive</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="flex-1">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-ink-100 mt-16">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 py-8 text-center text-sm text-ink-500">
+        <p>
+          Craig's Newsroom · Published Mon &amp; Thu, 08:30 CET ·
+          <a href="/personal-newsroom/rss.xml" class="hover:text-brand-600">RSS</a>
+        </p>
+        <p class="mt-1 text-xs text-ink-400">
+          Not financial advice. Never was. Never will be.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

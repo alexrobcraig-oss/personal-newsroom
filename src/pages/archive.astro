@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Group by year
+const byYear: Record<string, typeof sorted> = {};
+for (const post of sorted) {
+  const year = post.data.pubDate.getFullYear().toString();
+  if (!byYear[year]) byYear[year] = [];
+  byYear[year].push(post);
+}
+const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<Base title="Archive" description="Full archive of Craig's Newsroom briefings.">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+    <h1 class="text-3xl font-bold text-ink-900 mb-8">Archive</h1>
+
+    {years.map(year => (
+      <section class="mb-10">
+        <h2 class="text-lg font-semibold text-ink-500 mb-3 pb-2 border-b border-ink-100">{year}</h2>
+        <ul class="space-y-2">
+          {byYear[year].map(post => (
+            <li class="flex items-center gap-4">
+              <time class="text-sm text-ink-400 w-24 flex-shrink-0">
+                {post.data.pubDate.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })}
+              </time>
+              <a href={`/personal-newsroom/blog/${post.id}/`}
+                 class="text-ink-800 hover:text-brand-600 transition-colors line-clamp-1">
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
+</Base>

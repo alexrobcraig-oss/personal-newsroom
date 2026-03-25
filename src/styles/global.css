@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { @apply scroll-smooth; }
+  body { @apply bg-white text-ink-800 font-sans antialiased; }
+  h1, h2, h3, h4 { @apply font-semibold text-ink-900; }
+}
+
+@layer components {
+  .prose-newsroom {
+    @apply prose prose-lg max-w-none;
+    @apply prose-headings:text-ink-900 prose-headings:font-semibold;
+    @apply prose-a:text-brand-600 prose-a:no-underline hover:prose-a:underline;
+    @apply prose-strong:text-ink-900;
+    @apply prose-blockquote:border-brand-500 prose-blockquote:text-ink-700;
+    @apply prose-code:bg-ink-100 prose-code:px-1 prose-code:rounded;
+  }
+
+  .tag-pill {
+    @apply inline-block px-3 py-0.5 rounded-full text-xs font-medium
+           bg-brand-100 text-brand-600 uppercase tracking-wide;
+  }
+
+  .card-hover {
+    @apply transition-shadow duration-200 hover:shadow-md;
+  }
+}

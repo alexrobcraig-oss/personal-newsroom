@@ -1,0 +1,65 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostCard from '../components/PostCard.astro';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sorted = allPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const [latest, ...older] = sorted;
+const recent = older.slice(0, 9);
+---
+
+<Base title="Craig's Newsroom">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-10">
+
+    <!-- Hero -->
+    <div class="mb-10">
+      <h1 class="text-4xl font-bold text-ink-900 mb-2">Craig's Newsroom</h1>
+      <p class="text-ink-500 text-lg">
+        Grounded, twice-weekly briefings on global markets, GBP/CHF dynamics, and life as a British expat in Zurich.
+        No hype. No sponsored content. Just the numbers and what they mean.
+      </p>
+    </div>
+
+    <!-- Latest Briefing (Featured) -->
+    {latest && (
+      <section class="mb-12">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-xs font-semibold uppercase tracking-widest text-brand-600">Latest Briefing</span>
+          <div class="h-px flex-1 bg-ink-100"></div>
+        </div>
+        <PostCard post={latest} featured={true} />
+      </section>
+    )}
+
+    <!-- Previous Briefings -->
+    {recent.length > 0 && (
+      <section>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="text-xs font-semibold uppercase tracking-widest text-ink-500">Previous Briefings</span>
+          <div class="h-px flex-1 bg-ink-100"></div>
+        </div>
+        <div class="flex flex-col gap-2">
+          {recent.map(post => <PostCard post={post} />)}
+        </div>
+        {older.length > 9 && (
+          <div class="mt-4 text-center">
+            <a href="/personal-newsroom/archive" class="text-sm text-brand-600 hover:underline">
+              View full archive ({older.length} posts) →
+            </a>
+          </div>
+        )}
+      </section>
+    )}
+
+    <!-- Empty state -->
+    {!latest && (
+      <div class="text-center py-20 text-ink-400">
+        <p class="text-5xl mb-4">📭</p>
+        <p class="text-lg">First briefing drops Monday at 08:30 CET.</p>
+      </div>
+    )}
+
+  </div>
+</Base>

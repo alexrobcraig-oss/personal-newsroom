@@ -1,0 +1,47 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  featured?: boolean;
+}
+
+const { post, featured = false } = Astro.props;
+const { title, description, pubDate, tags } = post.data;
+
+const formattedDate = pubDate.toLocaleDateString('en-GB', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const url = `/personal-newsroom/blog/${post.id}/`;
+---
+
+{featured ? (
+  <a href={url} class="block group card-hover rounded-xl border border-ink-100 bg-gradient-to-br from-brand-50 to-white p-6 sm:p-8">
+    <div class="flex flex-wrap gap-2 mb-3">
+      {tags.map(tag => <span class="tag-pill">{tag}</span>)}
+    </div>
+    <h2 class="text-2xl font-semibold text-ink-900 group-hover:text-brand-600 transition-colors mb-2 leading-snug">
+      {title}
+    </h2>
+    <p class="text-ink-600 mb-4 leading-relaxed">{description}</p>
+    <div class="flex items-center justify-between">
+      <time class="text-sm text-ink-400">{formattedDate}</time>
+      <span class="text-brand-600 text-sm font-medium group-hover:underline">Read briefing →</span>
+    </div>
+  </a>
+) : (
+  <a href={url} class="block group card-hover rounded-lg border border-ink-100 bg-white px-5 py-4">
+    <div class="flex items-start justify-between gap-4">
+      <div class="flex-1 min-w-0">
+        <h3 class="font-medium text-ink-900 group-hover:text-brand-600 transition-colors truncate mb-1">
+          {title}
+        </h3>
+        <p class="text-sm text-ink-500 line-clamp-2">{description}</p>
+      </div>
+      <time class="text-xs text-ink-400 whitespace-nowrap mt-0.5 flex-shrink-0">{formattedDate}</time>
+    </div>
+  </a>
+)}

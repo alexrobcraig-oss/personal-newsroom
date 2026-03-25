@@ -1,0 +1,21 @@
+{
+  "name": "personal-newsroom",
+  "version": "1.0.0",
+  "description": "Craig's Newsroom — twice-weekly market briefings for a British expat in Zurich.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "briefing": "node scripts/generate-briefing.mjs"
+  },
+  "author": "Alexander Craig",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/rss": "^4.0.17",
+    "@astrojs/sitemap": "^3.7.1",
+    "@astrojs/tailwind": "^6.0.2",
+    "@tailwindcss/typography": "^0.5.19",
+    "astro": "^6.0.8",
+    "tailwindcss": "^3.4.19"
+  }
+}
