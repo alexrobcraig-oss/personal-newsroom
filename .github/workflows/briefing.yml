@@ -11,6 +11,7 @@ on:
 
 permissions:
   contents: write
+  pull-requests: read
 
 jobs:
   briefing:
@@ -38,13 +39,32 @@ jobs:
         run: node scripts/generate-briefing.mjs
 
       - name: Commit & push new post
+        id: commit
         run: |
           git config user.name "Craig's Newsroom Bot"
           git config user.email "bot@craigs-newsroom.local"
           git add src/content/blog/
           if git diff --staged --quiet; then
             echo "Nothing to commit (duplicate check passed, no new post)"
+            echo "new_post=false" >> $GITHUB_OUTPUT
           else
             git commit -m "briefing: $(date +%Y-%m-%d)"
             git push
+            echo "new_post=true" >> $GITHUB_OUTPUT
+            echo "post_date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
           fi
+
+      - name: Notify — post commit comment
+        if: steps.commit.outputs.new_post == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const sha = context.sha;
+            const date = '${{ steps.commit.outputs.post_date }}';
+            const siteUrl = 'https://alexrobcraig-oss.github.io/personal-newsroom/';
+            await github.rest.repos.createCommitComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: sha,
+              body: `✅ **Craig's Newsroom — Briefing Published**\n\n📅 **Date:** ${date}\n🌐 **Live at:** [${siteUrl}](${siteUrl})\n\nYour twice-weekly market briefing has been generated and deployed. The site will be live within ~1 minute of this comment.`
+            });
