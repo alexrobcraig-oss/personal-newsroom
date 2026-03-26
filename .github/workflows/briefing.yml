@@ -52,6 +52,7 @@ jobs:
             git push
             echo "new_post=true" >> $GITHUB_OUTPUT
             echo "post_date=$(date +%Y-%m-%d)" >> $GITHUB_OUTPUT
+            echo "post_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
           fi
 
       - name: Notify — post commit comment
@@ -59,7 +60,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const sha = context.sha;
+            const sha = '${{ steps.commit.outputs.post_sha }}';
             const date = '${{ steps.commit.outputs.post_date }}';
             const siteUrl = 'https://alexrobcraig-oss.github.io/personal-newsroom/';
             await github.rest.repos.createCommitComment({
