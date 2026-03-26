@@ -242,10 +242,7 @@ List exactly 3–5 stocks. For each:
 
 Prefer tickers surfaced by the Morningstar/Zacks sources. Fall back to general market knowledge if needed.
 
-## 3. The Expat Angle
-One paragraph. How does today's macro picture specifically affect GBP/CHF, Swiss inflation, SNB policy, or cost of living in Zurich? Be concrete.
-
-## 4. Critical Risks
+## 3. Critical Risks
 3–5 bullet points: tail risks for the week ahead.
 
 ---
@@ -254,8 +251,8 @@ One paragraph. How does today's macro picture specifically affect GBP/CHF, Swiss
 RULES:
 - Total body: 700–800 words MAX
 - Every bull thesis must have a Bear Case (non-negotiable)
-- No headers other than the four numbered above
-- Sections 1 and 3 in prose; sections 2 and 4 in the structured format above
+- No headers other than the three numbered above
+- Section 1 in prose; sections 2 and 3 in the structured format above
 - Do not include a post title (that is added separately)`;
 
   return callClaude(apiKey, SONNET, 800, prompt);
@@ -266,7 +263,7 @@ function writePost(slug, body) {
   const date = new Date();
   const monthDay = date.toLocaleDateString('en-GB', { month: 'long', day: 'numeric' });
   const title = `Market Briefing — ${monthDay} ${date.getFullYear()}`;
-  const description = `Grounded market overview for ${monthDay}: macro trends, stock picks with bear cases, and what it means for GBP/CHF and life in Zurich.`;
+  const description = `Grounded market overview for ${monthDay}: macro trends, stock picks with bear cases, and the critical risks for the week ahead.`;
 
   const content = `---
 title: "${title}"
