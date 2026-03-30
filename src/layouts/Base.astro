@@ -27,6 +27,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/x-icon" href="/personal-newsroom/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/personal-newsroom/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/personal-newsroom/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/personal-newsroom/apple-touch-icon.png" />
+    <link rel="manifest" href="/personal-newsroom/site.webmanifest" />
+    <meta name="theme-color" content="#1B2A4A" />
     <link rel="canonical" href={canonicalURL} />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
@@ -46,7 +52,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <header class="border-b border-ink-100 bg-white sticky top-0 z-10">
       <div class="max-w-3xl mx-auto px-4 sm:px-6 flex items-center justify-between h-14">
         <a href="/personal-newsroom/" class="flex items-center gap-2 group">
-          <span class="text-2xl">📰</span>
+          <img src="/personal-newsroom/logo-56.png" alt="Craig's Newsroom" width="28" height="28" class="rounded" />
           <span class="font-semibold text-ink-900 group-hover:text-brand-600 transition-colors">
             Craig's Newsroom
           </span>
